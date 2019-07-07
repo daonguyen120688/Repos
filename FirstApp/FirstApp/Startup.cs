@@ -67,14 +67,6 @@ namespace FirstApp
                 };
             });
 
-            var ValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(secret),
-                ValidateIssuer = false,
-                ValidateAudience = false
-            };
-
             services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
         }

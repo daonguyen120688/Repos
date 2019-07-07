@@ -27,7 +27,8 @@ namespace FirstApp.Services.Authentication
 
             var claim = new[]
             {
-                new Claim(ClaimTypes.Name, request.Username)
+                new Claim(ClaimTypes.Name, request.Username),
+                new Claim(ClaimTypes.DateOfBirth,"06/12/1988")
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using FirstApp.Models;
 using System.Text;
 using FirstApp.Services.Authentication;
+using FirstApp.Services.UserManagement;
 
 namespace FirstApp
 {
@@ -75,6 +76,7 @@ namespace FirstApp
             };
 
             services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

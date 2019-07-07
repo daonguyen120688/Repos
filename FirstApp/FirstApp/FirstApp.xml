@@ -4,6 +4,11 @@
         <name>FirstApp</name>
     </assembly>
     <members>
+        <member name="M:FirstApp.Controllers.AuthenticationController.RequestToken(FirstApp.Models.TokenRequest)">
+            <summary>
+            Validate user and issue a token if validation is successful
+            </summary>
+        </member>
         <member name="M:FirstApp.Controllers.ValuesController.Get">
             <summary>
             Get method for testing purpose

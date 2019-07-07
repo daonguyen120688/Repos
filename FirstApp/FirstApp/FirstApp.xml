@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FirstApp</name>
+    </assembly>
+    <members>
+        <member name="M:FirstApp.Controllers.ValuesController.Get">
+            <summary>
+            Get method for testing purpose
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

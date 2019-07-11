@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Extensions.Options;
 
 namespace FirstApp.Controllers
 {
@@ -10,14 +11,22 @@ namespace FirstApp.Controllers
     [Authorize]
     public class ValuesController : ControllerBase
     {
+        private readonly FirstApp.Models.Environment _environment;
+
+        public ValuesController(IOptions<FirstApp.Models.Environment> options)
+        {
+            _environment = options.Value;
+        }
+
         /// <summary>
         /// Get method for testing purpose
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        [AllowAnonymous]
+        public ActionResult<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return $"Hello {_environment.Description}";
         }
 
         // GET api/values/5

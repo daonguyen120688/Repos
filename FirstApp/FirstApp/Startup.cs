@@ -13,6 +13,7 @@ using FirstApp.Models;
 using System.Text;
 using FirstApp.Services.Authentication;
 using FirstApp.Services.UserManagement;
+using FirstApp.Ultilities;
 
 namespace FirstApp
 {
@@ -43,8 +44,8 @@ namespace FirstApp
             });
 
 #endif
+            AppSettingConfig.RegisterConfigurations(services,Configuration);
 
-            services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
             var secret = Encoding.ASCII.GetBytes(token.Secret);
 
@@ -69,6 +70,7 @@ namespace FirstApp
 
             services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,6 +89,13 @@ namespace FirstApp
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            //Set up transformation for .net core app
+            var builder = new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            builder.Build();
 
             #if DEBUG
 

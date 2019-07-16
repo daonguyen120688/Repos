@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 
 namespace FirstApp.Controllers
@@ -12,10 +13,12 @@ namespace FirstApp.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly FirstApp.Models.Environment _environment;
+        private readonly IStringLocalizer<ValuesController> _localise;
 
-        public ValuesController(IOptions<FirstApp.Models.Environment> options)
+        public ValuesController(IOptions<FirstApp.Models.Environment> options, IStringLocalizer<ValuesController> localise)
         {
             _environment = options.Value;
+            _localise = localise;
         }
 
         /// <summary>
@@ -26,7 +29,7 @@ namespace FirstApp.Controllers
         [AllowAnonymous]
         public ActionResult<string> Get()
         {
-            return $"Hello {_environment.Description}";
+            return $"Hello {_environment.Description} {_localise["Hello"]}";
         }
 
         // GET api/values/5

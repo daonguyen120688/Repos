@@ -38,6 +38,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\FirstApp.Resource.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="FirstApp.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -14,6 +14,10 @@ using System.Text;
 using FirstApp.Services.Authentication;
 using FirstApp.Services.UserManagement;
 using FirstApp.Ultilities;
+using Microsoft.AspNetCore.Mvc.Razor;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using System.Collections.Generic;
 
 namespace FirstApp
 {
@@ -29,9 +33,28 @@ namespace FirstApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddLocalization();
 
-            #if DEBUG
+            services.Configure<RequestLocalizationOptions>(
+                         opts =>
+                         {
+                    /* your configurations*/
+                             var supportedCultures = new List<CultureInfo>
+                             {
+                        new CultureInfo("en"),
+                        new CultureInfo("fr")
+                             };
+
+                             opts.DefaultRequestCulture = new RequestCulture("en", "en");
+                    // Formatting numbers, dates, etc.
+                    opts.SupportedCultures = supportedCultures;
+                    // UI strings that we have localized.
+                    opts.SupportedUICultures = supportedCultures;
+                         });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddDataAnnotationsLocalization();
+
+#if DEBUG
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -43,7 +66,7 @@ namespace FirstApp
                 c.IncludeXmlComments(xmlPath);
             });
 
-#endif
+            #endif
             AppSettingConfig.RegisterConfigurations(services,Configuration);
 
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
@@ -109,7 +132,15 @@ namespace FirstApp
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-            #endif
+#endif
+
+            app.UseRequestLocalization();
+
+            app.UseStaticFiles();
+            // To configure external authentication, 
+            // see: http://go.microsoft.com/fwlink/?LinkID=532715
+            app.UseAuthentication();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
